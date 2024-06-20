@@ -3,6 +3,7 @@
 import React, { useState, useCallback } from 'react';
 import Input from '@/components/Input'
 import Image from 'next/image'
+import axios from 'axios';
 import Link from 'next/link'
 
 
@@ -14,6 +15,19 @@ const Auth = () => {
     const handleVariantToggle = useCallback(() => {
         setVariant((currentValue) => currentValue === "login" ? "register" : "login");
     }, [setVariant]); // Add setVa
+
+    // register api
+
+    const register = useCallback(async ()=>{
+        await axios.post("/app/api/register",{
+            name,
+            email,
+            password,
+        })
+
+    },[name, email, password])
+
+    // Login Api
 
     
 
@@ -38,11 +52,12 @@ const Auth = () => {
                     {
                         variant === "register" && (
                             <Input
-                            id="username"
+                            id="name"
                             type="text"
                             value={name}
                             onChange={(e:any) => setName(e.target.value)}
                             label="Username"
+                            
                         />
 
                         )
@@ -69,6 +84,7 @@ const Auth = () => {
                     />
                 </div>
                 <button
+                onClick={register}
                 className="
                 bg-red-500  py-3 text-white rounded-md mt-3 hover:bg-red-700 transition w-full text-center
                 "
